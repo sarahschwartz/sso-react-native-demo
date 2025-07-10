@@ -1,40 +1,40 @@
 import { router } from 'expo-router';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { RpId } from 'react-native-zksync-sso';
-// import LoggedOutView from './LoggedOutView';
-import Button from './Button';
+import LoggedOutView from './LoggedOutView';
+// import Button from './Button';
+import { useAccount } from '@/contexts/AccountContext';
 interface MainViewProps {
     rpId: RpId;
 }
 
 const MainView: React.FC<MainViewProps> = ({ rpId }) => {
-    const [accountDetails, setAccountDetails] = useState<any>(null);
-    console.log("account details:", accountDetails)
+    const { accountDetails, setAccountDetails } = useAccount();
 
    useEffect(() => {
-  if (accountDetails) router.replace('/(tabs)');
+  if (accountDetails) router.replace('/(account)/(tabs)');
 }, [accountDetails]);
 
     return (
         <View style={styles.navigationContainer}>
             {!accountDetails && (
-                // <LoggedOutView
-                //     accountInfo={{
-                //         name: "JDoe",
-                //         userID: "jdoe",
-                //         rpId
-                //     }}
-                //     onAccountCreated={(account) => {
-                //         setAccountDetails(account);
-                //     }}
-                //     onSignedIn={(account) => {
-                //         setAccountDetails(account);
-                //     }}
-                // />
-                <View>
-                    <Button title="Log In" onPress={() => {setAccountDetails({address: '0x1234'})}}/>
-                </View>
+                <LoggedOutView
+                    accountInfo={{
+                        name: "JDoe",
+                        userID: "jdoe",
+                        rpId
+                    }}
+                    onAccountCreated={(account) => {
+                        setAccountDetails(account);
+                    }}
+                    onSignedIn={(account) => {
+                        setAccountDetails(account);
+                    }}
+                />
+                // <View>
+                //     <Button title="Log In" onPress={() => {setAccountDetails({address: '0x1234'})}}/>
+                // </View>
             )}
         </View>
     );

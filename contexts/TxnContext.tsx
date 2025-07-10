@@ -54,7 +54,7 @@ export function TxnProvider({ children }: { children: ReactNode }) {
   return (
     <TxnContext.Provider
       value={{
-        txns: txns
+        txns
       }}
     >
       {children}

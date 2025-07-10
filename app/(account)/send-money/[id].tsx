@@ -28,6 +28,8 @@ import {
 } from 'viem';
 import { privateKeyToAccount } from 'viem/accounts';
 import { zksyncSepoliaTestnet } from 'viem/zksync';
+import { sendETHwithSSO } from '@/utils/sendETH';
+import { useTxns } from '@/contexts/TxnContext';
 
 export default function SendMoneyScreen() {
   const router = useRouter();
@@ -43,28 +45,29 @@ export default function SendMoneyScreen() {
   const [error, setError] = useState<string | null>(null);
 
   const forwardPage = '/(account)/(tabs)';
+  const { accountDetails } = useTxns();
 
-  const account = privateKeyToAccount(
-    '0x7726827caac94a7f9e1b160f7ea819f172f7b6f9d2a97f992c38edeab82d4110'
-  );
+  // const account = privateKeyToAccount(
+  //   '0x7726827caac94a7f9e1b160f7ea819f172f7b6f9d2a97f992c38edeab82d4110'
+  // );
 
-  const client = useMemo(
-    () =>
-      createPublicClient({
-        chain: zksyncSepoliaTestnet,
-        transport: http(),
-      }),
-    []
-  );
-  const walletClient = useMemo(
-    () =>
-      createWalletClient({
-        account,
-        chain: zksyncSepoliaTestnet,
-        transport: http(),
-      }),
-    []
-  );
+  // const client = useMemo(
+  //   () =>
+  //     createPublicClient({
+  //       chain: zksyncSepoliaTestnet,
+  //       transport: http(),
+  //     }),
+  //   []
+  // );
+  // const walletClient = useMemo(
+  //   () =>
+  //     createWalletClient({
+  //       account,
+  //       chain: zksyncSepoliaTestnet,
+  //       transport: http(),
+  //     }),
+  //   []
+  // );
 
   useEffect(() => {
     if (isConfirmed) {
@@ -144,17 +147,24 @@ export default function SendMoneyScreen() {
 
   async function sendETH(amount: number, recipientAddress: `0x${string}`) {
     try {
-      setIsPending(true);
-      const txHash = await walletClient.sendTransaction({
-        to: recipientAddress,
-        value: parseEther(amount.toString()),
-      });
-      console.log('TX HASH:', txHash);
-      setHash(txHash);
-      const response = await client.waitForTransactionReceipt({ hash: txHash });
-      console.log('Included in block:', response.blockNumber);
-      setIsPending(false);
-      setIsConfirmed(true);
+      if(!accountDetails) {
+        setError('Account details not found');
+        return;
+      }
+      // setIsPending(true);
+      const prepared = await sendETHwithSSO(accountDetails, recipientAddress, parseEther(amount.toString(), "wei").toString());
+      console.log("Prepared transaction:", prepared);
+
+      // const txHash = await walletClient.sendTransaction({
+      //   to: recipientAddress,
+      //   value: parseEther(amount.toString()),
+      // });
+      // console.log('TX HASH:', txHash);
+      // setHash(txHash);
+      // const response = await client.waitForTransactionReceipt({ hash: txHash });
+      // console.log('Included in block:', response.blockNumber);
+      // setIsPending(false);
+      // setIsConfirmed(true);
     } catch (e) {
       console.log('error:', e);
       setError('oops, something went wrong');
