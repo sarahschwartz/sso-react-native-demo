@@ -5,7 +5,9 @@ import sdk from 'react-native-zksync-sso';
 
 export default function App() {
   const rpId = sdk.utils.createRpId(
-    "soo-sdk-example-pages.pages.dev", // RP ID (same for both platforms)
+    // dev.zksync.auth-test.SSOTutorialDemoRN
+    // RP ID maps to the domain only, not the App ID
+    "auth-test.zksync.dev", // RP ID (same for both platforms)
     "android:apk-key-hash:-sYXRdwJA3hvue3mKpYrOZ9zSPC7b4mbgzJmdZEDO5w" // Android origin
   );
 

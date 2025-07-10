@@ -27,12 +27,18 @@ export async function sendETHwithSSO(
       fromAccount.info.rpId,
       config
     );
+
+    // TODO: try out interacting with a contract
     const transaction: Transaction = {
       to: toAddress as string,
       value: amountInWei,
       from: fromAccount.address,
       input: undefined,
     };
+
+    // sends and waits for the receipt automatically
+    // await accountClient.sendTransaction(transaction as any);
+    // this doesn't sign, just adds gas and other fields
     const prepared = await accountClient.prepareTransaction(transaction as any);
     return prepared;
   } catch (err) {
