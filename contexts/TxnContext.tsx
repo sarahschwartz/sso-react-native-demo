@@ -8,6 +8,7 @@ import React, {
   useState,
 } from 'react';
 import { Provider } from 'zksync-ethers';
+import { useAccount } from './AccountContext';
 
 interface TxnContextType {
   txns: Tx[] | undefined;
@@ -20,6 +21,8 @@ export function TxnProvider({ children }: { children: ReactNode }) {
 
     const rpcUrl = 'https://sepolia.era.zksync.dev';
     const maxTxnsLength = 10;
+
+    const { accountDetails } = useAccount();
   
     useEffect(() => {
       const zkProvider = new Provider(rpcUrl);
@@ -30,7 +33,7 @@ export function TxnProvider({ children }: { children: ReactNode }) {
           console.log(`Failed to fetch block ${blockNumber}`);
           return;
         }
-        const newTransfers = await getNewTransfers(block, zkProvider);
+        const newTransfers = await getNewTransfers(block, zkProvider, accountDetails!.address);
   
         if (newTransfers.length) {
           setTxns((prev = []) => {
@@ -54,7 +57,7 @@ export function TxnProvider({ children }: { children: ReactNode }) {
   return (
     <TxnContext.Provider
       value={{
-        txns: txns
+        txns
       }}
     >
       {children}

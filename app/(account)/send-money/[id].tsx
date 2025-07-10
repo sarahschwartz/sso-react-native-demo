@@ -7,7 +7,7 @@ import { PriceObject } from '@/types/types';
 import Avatar from '@mealection/react-native-boring-avatars';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Send, X } from 'lucide-react-native';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   KeyboardAvoidingView,
   Platform,
@@ -20,14 +20,11 @@ import {
 } from 'react-native';
 import Toast from 'react-native-toast-message';
 import {
-  createPublicClient,
-  createWalletClient,
-  http,
   isAddress,
   parseEther
 } from 'viem';
-import { privateKeyToAccount } from 'viem/accounts';
-import { zksyncSepoliaTestnet } from 'viem/zksync';
+import { sendETHwithSSO } from '@/utils/sendETH';
+import { useAccount } from '@/contexts/AccountContext';
 
 export default function SendMoneyScreen() {
   const router = useRouter();
@@ -37,34 +34,13 @@ export default function SendMoneyScreen() {
   const [prices, setPrices] = useState<PriceObject | undefined>(undefined);
   const [address, setAddress] = useState<string>('');
 
-  const [hash, setHash] = useState<`0x${string}` | null>(null);
+  const [hash, setHash] = useState<string | null>(null);
   const [isPending, setIsPending] = useState(false);
   const [isConfirmed, setIsConfirmed] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const forwardPage = '/(account)/(tabs)';
-
-  const account = privateKeyToAccount(
-    '0x7726827caac94a7f9e1b160f7ea819f172f7b6f9d2a97f992c38edeab82d4110'
-  );
-
-  const client = useMemo(
-    () =>
-      createPublicClient({
-        chain: zksyncSepoliaTestnet,
-        transport: http(),
-      }),
-    []
-  );
-  const walletClient = useMemo(
-    () =>
-      createWalletClient({
-        account,
-        chain: zksyncSepoliaTestnet,
-        transport: http(),
-      }),
-    []
-  );
+  const { accountDetails } = useAccount();
 
   useEffect(() => {
     if (isConfirmed) {
@@ -144,15 +120,19 @@ export default function SendMoneyScreen() {
 
   async function sendETH(amount: number, recipientAddress: `0x${string}`) {
     try {
+      if(!accountDetails) {
+        setError('Account details not found');
+        return;
+      }
       setIsPending(true);
-      const txHash = await walletClient.sendTransaction({
-        to: recipientAddress,
-        value: parseEther(amount.toString()),
-      });
-      console.log('TX HASH:', txHash);
-      setHash(txHash);
-      const response = await client.waitForTransactionReceipt({ hash: txHash });
-      console.log('Included in block:', response.blockNumber);
+      const response = await sendETHwithSSO(accountDetails, recipientAddress, parseEther(amount.toString(), "wei").toString());
+      console.log("Response:", response);
+      if(!response || !response.txHash) {
+        setError('Transaction failed');
+        setIsPending(false);
+        return;
+      }
+      setHash(response.txHash);
       setIsPending(false);
       setIsConfirmed(true);
     } catch (e) {

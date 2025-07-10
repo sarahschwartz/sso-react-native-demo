@@ -1,4 +1,4 @@
-import { currentUser, friends } from '@/utils/mockData';
+import { friends } from '@/utils/mockData';
 import { formatCurrency } from '@/utils/prices';
 import type { Tx } from '@/types/types';
 import Avatar from '@mealection/react-native-boring-avatars';
@@ -6,6 +6,7 @@ import { ethers } from 'ethers';
 import { Heart, MessageSquare } from 'lucide-react-native';
 import React from 'react';
 import { Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { useAccount } from '@/contexts/AccountContext';
 
 interface TransactionCardProps {
   transaction: Tx;
@@ -24,14 +25,16 @@ export default function TransactionCard({
    from,
    hash,
   } = transaction;
+
+  const { accountDetails } = useAccount();
   
   const parsedValue = ethers.formatEther(typeof value === 'number' ? BigInt(value) : value);
   const dollarAmount = parseFloat(parsedValue) * (ethPrice || 0);
  
   const fromAddress = `${from.substring(0, 6)}...`;
   const toAddress = `${to?.substring(0, 6)}...`; 
-  const userRecievedMoney = to == currentUser.address;
-  const userSentMoney = from == currentUser.address;
+  const userRecievedMoney = to === accountDetails!.address;
+  const userSentMoney = from === accountDetails!.address;
 
   const fromFriend = friends.find(friend => friend.address === from)?.name || fromAddress;
   const fromName = userRecievedMoney || userSentMoney ? "You" : fromFriend;

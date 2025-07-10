@@ -1,13 +1,13 @@
 import { Tx } from "@/types/types";
 import { type Provider, types } from "zksync-ethers";
-import { friends, currentUser } from "./mockData";
+import { friends } from "./mockData";
 
-export const handleTx = async (txDetails: types.TransactionResponse) => {
+export const handleTx = async (txDetails: types.TransactionResponse, userAddress: string) => {
   if (!txDetails) return;
 
   const isCurrentUser =
-    txDetails.from === currentUser.address ||
-    txDetails.to === currentUser.address;
+    txDetails.from === userAddress ||
+    txDetails.to === userAddress;
 
   const isFriend = friends.some(
     (f) => f.address === txDetails.from || f.address === txDetails.to
@@ -21,7 +21,8 @@ export const handleTx = async (txDetails: types.TransactionResponse) => {
 
 export const getNewTransfers = async (
   block: types.Block,
-  provider: Provider
+  provider: Provider,
+  userAddress: string
 ): Promise<Tx[]> => {
   const newTransfers: Tx[] = [];
   if (
@@ -33,7 +34,7 @@ export const getNewTransfers = async (
   }
   for (const txHash of block.transactions) {
     const txDetails = await provider.getTransaction(txHash);
-    const handled = await handleTx(txDetails);
+    const handled = await handleTx(txDetails, userAddress);
     if (handled) newTransfers.push(handled);
   }
   return newTransfers;
