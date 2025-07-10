@@ -1,10 +1,5 @@
 import { User } from '../types/types';
 
-// Mock current user
-export const currentUser: User = {
-  address: '0x36615Cf349d7F6344891B1e7CA7C72883F5dc049',
-};
-
 // Mock friends
 export const friends: User[] = [
   {

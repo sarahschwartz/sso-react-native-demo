@@ -11,6 +11,6 @@ Make sure you have installed the [dependencies](https://reactnative.dev/docs/set
 Then, install the repo dependencies and run the project with:
 
 ```bash
-npm install
-npm run ios
+bun install
+bun ios
 ```

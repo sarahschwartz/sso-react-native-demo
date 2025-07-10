@@ -28,7 +28,6 @@ export async function sendETHwithSSO(
       config
     );
 
-    // TODO: try out interacting with a contract
     const transaction: Transaction = {
       to: toAddress as string,
       value: amountInWei,
@@ -36,11 +35,9 @@ export async function sendETHwithSSO(
       input: undefined,
     };
 
-    // sends and waits for the receipt automatically
-    // await accountClient.sendTransaction(transaction as any);
-    // this doesn't sign, just adds gas and other fields
-    const prepared = await accountClient.prepareTransaction(transaction as any);
-    return prepared;
+    // sends tx and waits for the receipt automatically
+    const response = await accountClient.sendTransaction(transaction as any);
+    return response;
   } catch (err) {
     console.error("Error preparing transaction:", err);
   }

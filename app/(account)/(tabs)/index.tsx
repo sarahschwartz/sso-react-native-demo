@@ -65,7 +65,7 @@ export default function HomeScreen() {
   const reversedTxns = txns ? [...txns].reverse() : [];
   return (
     <SafeAreaView style={styles.container}>
-      {reversedTxns && reversedTxns.length > 0 && (
+      {reversedTxns && reversedTxns.length > 0 ? (
         <FlatList
           data={reversedTxns}
           keyExtractor={(item) => item?.hash as string}
@@ -89,6 +89,15 @@ export default function HomeScreen() {
           }
           showsVerticalScrollIndicator={false}
         />
+      ) : (
+        <View 
+        style={styles.emptyContainer}
+        >
+          <Text 
+          style={styles.filterText}
+          >
+            No transactions found</Text>
+        </View>
       )}
     </SafeAreaView>
   );
@@ -141,6 +150,12 @@ const styles = StyleSheet.create({
     marginRight: 8,
     borderRadius: 16,
     backgroundColor: '#F3F4F6',
+  },
+  emptyContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 16,
   },
   activeFilterTab: {
     backgroundColor: '#3B82F6',

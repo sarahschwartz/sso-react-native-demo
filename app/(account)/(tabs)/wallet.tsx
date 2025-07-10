@@ -1,22 +1,28 @@
-import { currentUser } from '@/utils/mockData';
 import { formatCurrency, getPrices } from '@/utils/prices';
 import { PriceObject } from '@/types/types';
 import Avatar from '@mealection/react-native-boring-avatars';
 import { ethers } from 'ethers';
 import { router } from 'expo-router';
-import { ArrowUpRight } from 'lucide-react-native';
+import { ArrowUpRight, RefreshCcw } from 'lucide-react-native';
 import React, { useEffect, useState } from 'react';
 import { Platform, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Provider } from 'zksync-ethers';
+import { useAccount } from '@/contexts/AccountContext';
+import CopyableAddress from '@/components/CopyableAddress';
 
 export default function WalletScreen() {
   const [prices, setPrices] = useState<PriceObject | undefined>(
       undefined
     );
   const [balance, setBalance] = useState<string>();
+  const { accountDetails } = useAccount();
+  console.log('accountDetails', accountDetails);  
     
    useEffect(() => {
-      const fetchPrices = async () => {
+      fetchPrices();
+    }, []);
+
+    const fetchPrices = async () => {
         const prices = await getPrices();
         if(!prices) {
           console.log('No prices found');
@@ -26,11 +32,9 @@ export default function WalletScreen() {
 
         // set balance
         const zkProvider = new Provider('https://sepolia.era.zksync.dev');
-        const balance = await zkProvider.getBalance(currentUser.address);
+        const balance = await zkProvider.getBalance(accountDetails!.address);
         setBalance(ethers.formatEther(balance));
       };
-      fetchPrices();
-    }, []);
 
   const getAmountInDollars = (value: number) => {
     if (!prices) return;
@@ -54,13 +58,18 @@ export default function WalletScreen() {
               size={60}
             />
         <Text style={styles.title}>Your Wallet</Text>
-        <Text style={styles.sectionTitle}>Your address:</Text>
-        <Text style={styles.sectionTitle}>{currentUser.address}</Text>
+        <CopyableAddress value={accountDetails!.address} />
       </View>
       
       <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
         <View style={styles.balanceCard}>
+          <View style={styles.balanceLabelContainer}>
           <Text style={styles.balanceLabel}>SSO Balance</Text>
+              <TouchableOpacity onPress={fetchPrices} style={styles.refreshContainer}>
+                <RefreshCcw size={20} color="#3B82F6" />
+                <Text style={styles.actionText}>Refresh</Text>
+            </TouchableOpacity>
+              </View>
           <Text style={styles.balanceAmount}>{amountInDollars ? formatCurrency(amountInDollars) : '0.00'}</Text>
           <View style={styles.actionButtons}>
             <TouchableOpacity onPress={() => router.push(`/send-money/input`)} style={styles.actionButton}>
@@ -89,6 +98,11 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#F3F4F6',
   },
+  balanceLabelContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
   title: {
     fontSize: 24,
     fontWeight: '700',
@@ -97,6 +111,12 @@ const styles = StyleSheet.create({
   },
   content: {
     padding: 16,
+  },
+  refreshContainer: {
+    width: 100,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
   },
   balanceCard: {
     backgroundColor: 'white',
