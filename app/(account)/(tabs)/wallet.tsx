@@ -1,40 +1,46 @@
-import { formatCurrency, getPrices } from '@/utils/prices';
-import { PriceObject } from '@/types/types';
-import Avatar from '@mealection/react-native-boring-avatars';
-import { ethers } from 'ethers';
-import { router } from 'expo-router';
-import { ArrowUpRight, RefreshCcw } from 'lucide-react-native';
-import React, { useEffect, useState } from 'react';
-import { Platform, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { Provider } from 'zksync-ethers';
-import { useAccount } from '@/contexts/AccountContext';
-import CopyableAddress from '@/components/CopyableAddress';
+import { formatCurrency, getPrices } from "@/utils/prices";
+import { PriceObject } from "@/types/types";
+import Avatar from "@mealection/react-native-boring-avatars";
+import { ethers } from "ethers";
+import { router } from "expo-router";
+import { ArrowUpRight, RefreshCcw } from "lucide-react-native";
+import React, { useEffect, useState } from "react";
+import {
+  Platform,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import { Provider } from "zksync-ethers";
+import { useAccount } from "@/contexts/AccountContext";
+import CopyableAddress from "@/components/CopyableAddress";
 
 export default function WalletScreen() {
-  const [prices, setPrices] = useState<PriceObject | undefined>(
-      undefined
-    );
+  const [prices, setPrices] = useState<PriceObject | undefined>(undefined);
   const [balance, setBalance] = useState<string>();
   const { accountDetails } = useAccount();
-  console.log('accountDetails', accountDetails);  
-    
-   useEffect(() => {
-      fetchPrices();
-    }, []);
+  console.log("accountDetails", accountDetails);
 
-    const fetchPrices = async () => {
-        const prices = await getPrices();
-        if(!prices) {
-          console.log('No prices found');
-          return;
-        }
-        setPrices(prices);
+  useEffect(() => {
+    fetchPrices();
+  }, []);
 
-        // set balance
-        const zkProvider = new Provider('https://sepolia.era.zksync.dev');
-        const balance = await zkProvider.getBalance(accountDetails!.address);
-        setBalance(ethers.formatEther(balance));
-      };
+  const fetchPrices = async () => {
+    const prices = await getPrices();
+    if (!prices) {
+      console.log("No prices found");
+      return;
+    }
+    setPrices(prices);
+
+    // set balance
+    const zkProvider = new Provider("https://sepolia.era.zksync.dev");
+    const balance = await zkProvider.getBalance(accountDetails!.address);
+    setBalance(ethers.formatEther(balance));
+  };
 
   const getAmountInDollars = (value: number) => {
     if (!prices) return;
@@ -47,32 +53,38 @@ export default function WalletScreen() {
     return value * price;
   };
 
-  const amountInDollars = balance ? getAmountInDollars(parseFloat(balance)) : undefined;
-    
+  const amountInDollars = balance
+    ? getAmountInDollars(parseFloat(balance))
+    : undefined;
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <Avatar
-              variant="beam"
-              name={"You"}
-              size={60}
-            />
+        <Avatar variant="beam" name={"You"} size={60} />
         <Text style={styles.title}>Your Wallet</Text>
         <CopyableAddress value={accountDetails!.address} />
       </View>
-      
+
       <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
         <View style={styles.balanceCard}>
           <View style={styles.balanceLabelContainer}>
-          <Text style={styles.balanceLabel}>SSO Balance</Text>
-              <TouchableOpacity onPress={fetchPrices} style={styles.refreshContainer}>
-                <RefreshCcw size={20} color="#3B82F6" />
-                <Text style={styles.actionText}>Refresh</Text>
+            <Text style={styles.balanceLabel}>SSO Balance</Text>
+            <TouchableOpacity
+              onPress={fetchPrices}
+              style={styles.refreshContainer}
+            >
+              <RefreshCcw size={20} color="#3B82F6" />
+              <Text style={styles.actionText}>Refresh</Text>
             </TouchableOpacity>
-              </View>
-          <Text style={styles.balanceAmount}>{amountInDollars ? formatCurrency(amountInDollars) : '0.00'}</Text>
+          </View>
+          <Text style={styles.balanceAmount}>
+            {amountInDollars ? formatCurrency(amountInDollars) : "0.00"}
+          </Text>
           <View style={styles.actionButtons}>
-            <TouchableOpacity onPress={() => router.push(`/send-money/input`)} style={styles.actionButton}>
+            <TouchableOpacity
+              onPress={() => router.push(`/send-money/input`)}
+              style={styles.actionButton}
+            >
               <View style={styles.actionIconContainer}>
                 <ArrowUpRight size={20} color="#3B82F6" />
               </View>
@@ -88,44 +100,44 @@ export default function WalletScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F9FAFB',
+    backgroundColor: "#F9FAFB",
   },
   header: {
     paddingHorizontal: 16,
-    paddingTop: Platform.OS === 'ios' ? 16 : 48,
+    paddingTop: Platform.OS === "ios" ? 16 : 48,
     paddingBottom: 16,
-    backgroundColor: 'white',
+    backgroundColor: "white",
     borderBottomWidth: 1,
-    borderBottomColor: '#F3F4F6',
+    borderBottomColor: "#F3F4F6",
   },
   balanceLabelContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
   },
   title: {
     fontSize: 24,
-    fontWeight: '700',
-    fontFamily: 'Inter_700Bold',
-    color: '#111827',
+    fontWeight: "700",
+    fontFamily: "Inter_700Bold",
+    color: "#111827",
   },
   content: {
     padding: 16,
   },
   refreshContainer: {
     width: 100,
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     gap: 8,
   },
   balanceCard: {
-    backgroundColor: 'white',
+    backgroundColor: "white",
     borderRadius: 12,
     padding: 20,
     marginBottom: 24,
     ...Platform.select({
       ios: {
-        shadowColor: '#000',
+        shadowColor: "#000",
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.1,
         shadowRadius: 4,
@@ -134,37 +146,37 @@ const styles = StyleSheet.create({
         elevation: 2,
       },
       web: {
-        boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
+        boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
       },
     }),
   },
   balanceLabel: {
     fontSize: 16,
-    color: '#6B7280',
-    fontFamily: 'Inter_500Medium',
+    color: "#6B7280",
+    fontFamily: "Inter_500Medium",
   },
   balanceAmount: {
     fontSize: 32,
-    fontWeight: '700',
-    color: '#111827',
+    fontWeight: "700",
+    color: "#111827",
     marginTop: 4,
-    fontFamily: 'Inter_700Bold',
+    fontFamily: "Inter_700Bold",
   },
   pendingAmount: {
     fontSize: 14,
-    color: '#9CA3AF',
+    color: "#9CA3AF",
     marginTop: 4,
-    fontFamily: 'Inter_400Regular',
+    fontFamily: "Inter_400Regular",
   },
   actionButtons: {
-    flexDirection: 'row',
+    flexDirection: "row",
     marginTop: 20,
   },
   actionButton: {
     flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#F3F4F6',
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#F3F4F6",
     borderRadius: 8,
     padding: 12,
     marginRight: 8,
@@ -173,34 +185,34 @@ const styles = StyleSheet.create({
     width: 32,
     height: 32,
     borderRadius: 16,
-    backgroundColor: '#EFF6FF',
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: "#EFF6FF",
+    justifyContent: "center",
+    alignItems: "center",
     marginRight: 8,
   },
   actionText: {
     fontSize: 14,
-    fontFamily: 'Inter_500Medium',
-    color: '#4B5563',
+    fontFamily: "Inter_500Medium",
+    color: "#4B5563",
   },
   section: {
     marginBottom: 24,
   },
   sectionHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     marginBottom: 12,
   },
   sectionTitle: {
     fontSize: 18,
-    fontWeight: '600',
-    color: '#111827',
-    fontFamily: 'Inter_600SemiBold',
+    fontWeight: "600",
+    color: "#111827",
+    fontFamily: "Inter_600SemiBold",
   },
   cardPromoContainer: {
-    flexDirection: 'row',
-    backgroundColor: 'white',
+    flexDirection: "row",
+    backgroundColor: "white",
     borderRadius: 12,
     padding: 16,
     marginBottom: 12,
@@ -209,9 +221,9 @@ const styles = StyleSheet.create({
     width: 48,
     height: 48,
     borderRadius: 24,
-    backgroundColor: '#EFF6FF',
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: "#EFF6FF",
+    justifyContent: "center",
+    alignItems: "center",
     marginRight: 16,
   },
   cardPromoContent: {
@@ -219,15 +231,15 @@ const styles = StyleSheet.create({
   },
   cardPromoTitle: {
     fontSize: 16,
-    fontWeight: '600',
-    color: '#111827',
+    fontWeight: "600",
+    color: "#111827",
     marginBottom: 4,
-    fontFamily: 'Inter_600SemiBold',
+    fontFamily: "Inter_600SemiBold",
   },
   cardPromoText: {
     fontSize: 14,
-    color: '#6B7280',
-    fontFamily: 'Inter_400Regular',
+    color: "#6B7280",
+    fontFamily: "Inter_400Regular",
   },
   applyButton: {
     marginTop: 8,

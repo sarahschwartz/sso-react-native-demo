@@ -42,8 +42,6 @@ export function TxnProvider({ children }: { children: ReactNode }) {
             unique.sort((a, b) => b.blockNumber! - a.blockNumber!);
             return unique.slice(0, maxTxnsLength);
           });
-        } else {
-          console.log('No relevant transfers in this block');
         }
       };
   

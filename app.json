@@ -1,16 +1,17 @@
 {
   "expo": {
-    "name": "zksync-sso-sdk-expo-test",
-    "slug": "zksync-sso-sdk-expo-test",
+    "name": "ZKsyncSSOPay",
+    "slug": "ZKsyncSSOPay",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "zksyncssosdkexpotest",
+    "scheme": "ZKsyncSSOPay",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.anonymous.zksync-sso-sdk-expo-test"
+      "bundleIdentifier": "dev.zksync.auth-test.SSORNTutorialDemo",
+      "appleTeamId": "4SQ22U66PS"
     },
     "android": {
       "adaptiveIcon": {
