@@ -20,7 +20,7 @@ export default function CopyableAddress({ value }: Props) {
 
   return (
     <Pressable onLongPress={handleCopy} style={styles.container}>
-      <Copy size={14} />
+      <Copy size={12} />
       <Text style={styles.sectionTitle}>{value}</Text>
     </Pressable>
   );
@@ -31,11 +31,11 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
     marginVertical: 10,
+    gap: 2
   },
   sectionTitle: {
-    fontSize: 14,
+    fontSize: 12,
     fontWeight: '600',
     color: '#111827',
     fontFamily: 'Inter_600SemiBold',
