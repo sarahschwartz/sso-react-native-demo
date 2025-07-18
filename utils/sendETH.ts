@@ -1,6 +1,6 @@
 import { loadConfig } from "@/components/helpers/loadConfig";
 import { Transaction, type RpId } from "react-native-zksync-sso";
-import { AccountClient } from "./authenticate/account_client";
+import { AccountClient } from "./authenticate/accountClient";
 
 interface FromAccount {
   info: {

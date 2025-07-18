@@ -1,11 +1,14 @@
 {
-  "name": "zksync-sso-sdk-expo-test",
+  "name": "zksync-sso-pay",
   "main": "expo-router/entry",
   "version": "1.0.0",
   "scripts": {
-    "start": "expo start",
-    "ios": "expo run:ios",
-    "lint": "expo lint"
+    "start": "expo start --dev-client --tunnel --clear",
+    "ios:simulator": "expo run:ios",
+    "ios:device": "expo run:ios --device",
+    "lint": "expo lint",
+    "android": "expo run:android",
+    "ios": "expo run:ios"
   },
   "dependencies": {
     "@expo/vector-icons": "^14.1.0",
@@ -14,7 +17,6 @@
     "@react-navigation/bottom-tabs": "^7.3.10",
     "@react-navigation/elements": "^2.3.8",
     "@react-navigation/native": "^7.1.6",
-    "@walletconnect/react-native-compat": "^2.21.4",
     "alchemy-sdk": "^3.6.1",
     "expo": "~53.0.16",
     "expo-blur": "~14.1.5",
@@ -37,7 +39,9 @@
     "react-dom": "19.0.0",
     "react-native": "0.79.5",
     "react-native-gesture-handler": "~2.24.0",
+    "react-native-get-random-values": "~1.11.0",
     "react-native-passkey": "^3.1.0",
+    "react-native-quick-crypto": "^0.7.15",
     "react-native-reanimated": "~3.17.4",
     "react-native-safe-area-context": "5.4.0",
     "react-native-screens": "~4.11.1",
@@ -46,7 +50,7 @@
     "react-native-web": "~0.20.0",
     "react-native-webview": "13.13.5",
     "react-native-zksync-sso": "^1.0.0-alpha.1",
-    "viem": "^2.31.6",
+    "viem": "^2.32.0",
     "zksync-ethers": "^6.18.0"
   },
   "devDependencies": {
@@ -56,5 +60,9 @@
     "eslint-config-expo": "~9.2.0",
     "typescript": "~5.8.3"
   },
-  "private": true
+  "overrides": {
+    "@mealection/react-native-boring-avatars": {
+      "react-native-svg": "^15.0.0"
+    }
+  }
 }
