@@ -1,8 +1,8 @@
 import type { AccountInfo, DeployedAccount } from '@/types/types';
 import React, { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import ActionButton, { ButtonStyle } from './ActionButton';
-import { createPasskey } from './helpers/createPasskey';
+import ActionButton, { ButtonStyle } from './ui/ActionButton';
+import { createPasskey } from '@/utils/account';
 
 interface PasskeyCreationViewProps {
     accountInfo: AccountInfo;

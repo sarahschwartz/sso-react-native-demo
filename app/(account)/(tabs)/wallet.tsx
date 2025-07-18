@@ -14,9 +14,9 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { Provider } from "zksync-ethers";
 import { useAccount } from "@/contexts/AccountContext";
-import CopyableAddress from "@/components/CopyableAddress";
+import CopyableAddress from "@/components/ui/CopyableAddress";
+import { loadBalance } from "@/utils/account";
 
 export default function WalletScreen() {
   const [prices, setPrices] = useState<PriceObject | undefined>(undefined);
@@ -37,8 +37,7 @@ export default function WalletScreen() {
     setPrices(prices);
 
     // set balance
-    const zkProvider = new Provider("https://sepolia.era.zksync.dev");
-    const balance = await zkProvider.getBalance(accountDetails!.address);
+    const balance = await loadBalance(accountDetails!.address);
     setBalance(ethers.formatEther(balance));
   };
 

@@ -1,4 +1,4 @@
-import TransactionCard from '@/components/TransactionCard';
+import TransactionCard from '@/components/ui/TransactionCard';
 import { useTxns } from '@/contexts/TxnContext';
 import { getPrices } from '@/utils/prices';
 import { PriceObject, Tx } from '@/types/types';

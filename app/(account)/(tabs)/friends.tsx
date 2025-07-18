@@ -1,4 +1,4 @@
-import FriendItem from '@/components/FriendItem';
+import FriendItem from '@/components/ui/FriendItem';
 import { friends } from '@/utils/mockData';
 import { User } from '@/types/types';
 import { useLocalSearchParams, useRouter } from 'expo-router';

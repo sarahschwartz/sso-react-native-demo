@@ -3,8 +3,8 @@ import React, { useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { RpId } from 'react-native-zksync-sso';
 import LoggedOutView from './LoggedOutView';
-// import Button from './Button';
 import { useAccount } from '@/contexts/AccountContext';
+
 interface MainViewProps {
     rpId: RpId;
 }
@@ -32,9 +32,6 @@ const MainView: React.FC<MainViewProps> = ({ rpId }) => {
                         setAccountDetails(account);
                     }}
                 />
-                // <View>
-                //     <Button title="Log In" onPress={() => {setAccountDetails({address: '0x1234'})}}/>
-                // </View>
             )}
         </View>
     );

@@ -1,4 +1,4 @@
-import { loadConfig } from "@/components/helpers/loadConfig";
+import { loadConfig } from "@/utils/loadConfig";
 import { Transaction, type RpId } from "react-native-zksync-sso";
 import { AccountClient } from "./authenticate/accountClient";
 

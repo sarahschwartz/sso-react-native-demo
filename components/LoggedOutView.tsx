@@ -1,9 +1,9 @@
-import { type AccountDetails, type AccountInfo, createAccountDetails } from '@/types/types';
+import { type AccountDetails, type AccountInfo } from '@/types/types';
 import React, { useState } from 'react';
 import { Modal, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import AccountCreationView from './AccountCreationView';
-import ActionButton, { ButtonStyle } from './ActionButton';
-import { getAccountByUserIdWrapper } from './helpers/getAccountByUserId';
+import ActionButton, { ButtonStyle } from './ui/ActionButton';
+import { getAccountByUserIdWrapper, createAccountDetails } from '@/utils/account';
 
 interface LoggedOutViewProps {
     accountInfo: AccountInfo;
@@ -19,22 +19,18 @@ const LoggedOutView: React.FC<LoggedOutViewProps> = ({
     const [showingCreateAccount, setShowingCreateAccount] = useState(false);
     const [isSigningIn, setIsSigningIn] = useState(false);
 
-    const handleSignIn = async () => {
+    async function handleSignIn() {
         setIsSigningIn(true);
 
         try {
             const uniqueAccountId = accountInfo.userID;
-
             const deployedAccount = await getAccountByUserIdWrapper(
                 uniqueAccountId
             );
-
             const accountDetails = createAccountDetails(accountInfo, deployedAccount);
-
-            console.log('Signed in with account:', accountDetails);
             onSignedIn(accountDetails);
         } catch (error) {
-            console.log('error: ', error);
+            console.log('Error signing in: ', error);
         } finally {
             setIsSigningIn(false);
         }
