@@ -8,16 +8,23 @@ Demo template app for ZKsync SSO React Native SDK.
 
 Make sure you have installed the [dependencies](https://reactnative.dev/docs/set-up-your-environment) needed for React Native for iOS.
 
-Then, install the repo dependencies and run/build the project with:
+You also need to have your associated domain and App ID configured.
+
+Plug in your device, install the repo dependencies, and build a development build the project with:
 
 ```bash
 npm install
-npm ios:device
+npm run ios:device
 ```
 
-Select your device to test the complete application.
+Select your device.
 
-To simply start the server without rebuilding the pods, run:
+If you can see your app running, great!
+If you just see the Expo splash screen,
+stop the server.
+
+In your phone settings, go to Privacy & Security → Local Network → enable the switch for your dev‑build app.
+Then run:
 
 ```bash
 npm run start
