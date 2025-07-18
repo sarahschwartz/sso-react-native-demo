@@ -1,6 +1,6 @@
-import AddressInput from '@/components/AddressInput';
-import AmountInput from '@/components/AmountInput';
-import Button from '@/components/Button';
+import AddressInput from '@/components/ui/AddressInput';
+import AmountInput from '@/components/ui/AmountInput';
+import Button from '@/components/ui/Button';
 import { friends } from '@/utils/mockData';
 import { formatCurrency, getPrices } from '@/utils/prices';
 import { PriceObject } from '@/types/types';
@@ -126,7 +126,6 @@ export default function SendMoneyScreen() {
       }
       setIsPending(true);
       const response = await sendETHwithSSO(accountDetails, recipientAddress, parseEther(amount.toString(), "wei").toString());
-      console.log("Response:", response);
       if(!response || !response.txHash) {
         setError('Transaction failed');
         setIsPending(false);
@@ -136,7 +135,7 @@ export default function SendMoneyScreen() {
       setIsPending(false);
       setIsConfirmed(true);
     } catch (e) {
-      console.log('error:', e);
+      console.log('Error sending ETH', e);
       setError('oops, something went wrong');
     }
   }

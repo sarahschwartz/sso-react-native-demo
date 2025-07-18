@@ -22,13 +22,9 @@ const PasskeyCreationView: React.FC<PasskeyCreationViewProps> = ({
 
         try {
             const deployedAccount = await createPasskey(accountInfo);
-
-            console.log('Account deployed at address:', deployedAccount.address);
-            console.log('with uniqueAccountId:', deployedAccount.uniqueAccountId);
-
             onDeployed(deployedAccount);
         } catch (err) {
-            console.error('Error creating passkey:', err);
+            console.log('Error creating passkey:', err);
             setError(err instanceof Error ? err.message : 'Failed to create passkey');
         } finally {
             setIsLoading(false);

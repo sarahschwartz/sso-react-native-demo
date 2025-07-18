@@ -18,7 +18,6 @@ export default function HomeScreen() {
         console.log('No prices found');
         return;
       }
-      console.log("prices:", prices)
       setPrices(prices);
     };
     fetchPrices();

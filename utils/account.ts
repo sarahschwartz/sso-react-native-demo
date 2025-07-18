@@ -29,7 +29,6 @@ export const createPasskey = async (
     challenge,
     config
   );
-  console.log("createPasskey - account deployed:", account);
   return {
     info: accountInfo,
     address: account.address,
@@ -42,7 +41,6 @@ export const getAccountByUserIdWrapper = async (
 ): Promise<Account> => {
   const config = loadConfig();
   const account: Account = await getAccountByUserId(uniqueAccountId, config);
-  console.log("Account implementation returned:", account);
   return account;
 };
 

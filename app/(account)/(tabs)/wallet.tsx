@@ -22,7 +22,6 @@ export default function WalletScreen() {
   const [prices, setPrices] = useState<PriceObject | undefined>(undefined);
   const [balance, setBalance] = useState<string>();
   const { accountDetails } = useAccount();
-  console.log("accountDetails", accountDetails);
 
   useEffect(() => {
     fetchPrices();
