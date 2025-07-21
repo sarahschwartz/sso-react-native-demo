@@ -1,6 +1,6 @@
-import React, { useState, useRef, useEffect } from 'react';
 import { Wallet } from 'lucide-react-native';
-import { View, TextInput, StyleSheet, Animated, Platform, Dimensions } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { Animated, Dimensions, StyleSheet, TextInput, View } from 'react-native';
 
 interface AddressInputProps {
   value: string;

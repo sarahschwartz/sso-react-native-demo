@@ -1,6 +1,6 @@
 import FriendItem from '@/components/ui/FriendItem';
-import { friends } from '@/utils/mockData';
 import { User } from '@/types/types';
+import { friends } from '@/utils/mockData';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Search, UserPlus } from 'lucide-react-native';
 import React, { useState } from 'react';

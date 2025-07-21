@@ -1,12 +1,12 @@
 import React from 'react';
-import { 
-  TouchableOpacity, 
-  Text, 
-  StyleSheet, 
+import {
   ActivityIndicator,
-  ViewStyle,
+  Platform,
+  StyleSheet,
+  Text,
   TextStyle,
-  Platform
+  TouchableOpacity,
+  ViewStyle
 } from 'react-native';
 
 interface ButtonProps {

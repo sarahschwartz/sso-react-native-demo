@@ -1,7 +1,7 @@
 import TransactionCard from '@/components/ui/TransactionCard';
 import { useTxns } from '@/contexts/TxnContext';
-import { getPrices } from '@/utils/prices';
 import { PriceObject, Tx } from '@/types/types';
+import { getPrices } from '@/utils/prices';
 import React, { useEffect, useState } from 'react';
 import { FlatList, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 

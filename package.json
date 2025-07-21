@@ -6,9 +6,7 @@
     "start": "expo start --dev-client --tunnel --clear",
     "ios:simulator": "expo run:ios",
     "ios:device": "expo run:ios --device",
-    "lint": "expo lint",
-    "android": "expo run:android",
-    "ios": "expo run:ios"
+    "lint": "expo lint"
   },
   "dependencies": {
     "@expo/vector-icons": "^14.1.0",
@@ -49,7 +47,6 @@
     "react-native-toast-message": "^2.3.3",
     "react-native-web": "~0.20.0",
     "react-native-webview": "13.13.5",
-    "react-native-zksync-sso": "^1.0.0-alpha.1",
     "viem": "^2.32.0",
     "zksync-ethers": "^6.18.0"
   },
