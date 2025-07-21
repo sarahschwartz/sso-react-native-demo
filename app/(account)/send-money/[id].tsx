@@ -23,7 +23,7 @@ import {
   isAddress,
   parseEther
 } from 'viem';
-import { sendETHwithSSO } from '@/utils/sendETH';
+import { sendETHWithSSO } from '@/utils/sendETH';
 import { useAccount } from '@/contexts/AccountContext';
 
 export default function SendMoneyScreen() {
@@ -125,7 +125,7 @@ export default function SendMoneyScreen() {
         return;
       }
       setIsPending(true);
-      const response = await sendETHwithSSO(accountDetails, recipientAddress, parseEther(amount.toString(), "wei").toString());
+      const response = await sendETHWithSSO(accountDetails, recipientAddress, parseEther(amount.toString(), "wei").toString());
       if(!response || !response.txHash) {
         setError('Transaction failed');
         setIsPending(false);

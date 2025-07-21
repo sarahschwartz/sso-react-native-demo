@@ -12,7 +12,7 @@ interface FromAccount {
   uniqueAccountId: string;
 }
 
-export async function sendETHwithSSO(
+export async function sendETHWithSSO(
   fromAccount: FromAccount,
   toAddress: `0x${string}`,
   amountInWei: string
