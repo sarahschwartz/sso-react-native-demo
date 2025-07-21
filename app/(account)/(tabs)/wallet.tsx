@@ -1,5 +1,8 @@
-import { formatCurrency, getPrices } from "@/utils/prices";
+import CopyableAddress from "@/components/ui/CopyableAddress";
+import { useAccount } from "@/contexts/AccountContext";
 import { PriceObject } from "@/types/types";
+import { loadBalance } from "@/utils/account";
+import { formatCurrency, getPrices } from "@/utils/prices";
 import Avatar from "@mealection/react-native-boring-avatars";
 import { ethers } from "ethers";
 import { router } from "expo-router";
@@ -14,9 +17,6 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { useAccount } from "@/contexts/AccountContext";
-import CopyableAddress from "@/components/ui/CopyableAddress";
-import { loadBalance } from "@/utils/account";
 
 export default function WalletScreen() {
   const [prices, setPrices] = useState<PriceObject | undefined>(undefined);
