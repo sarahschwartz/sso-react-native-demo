@@ -4,7 +4,6 @@ import { PriceObject } from "@/types/types";
 import { loadBalance } from "@/utils/account";
 import { formatCurrency, getPrices } from "@/utils/prices";
 import Avatar from "@mealection/react-native-boring-avatars";
-import { ethers } from "ethers";
 import { router } from "expo-router";
 import { ArrowUpRight, RefreshCcw } from "lucide-react-native";
 import React, { useEffect, useState } from "react";
@@ -36,8 +35,8 @@ export default function WalletScreen() {
     setPrices(prices);
 
     // set balance
-    const balance = await loadBalance(accountDetails!.address);
-    setBalance(ethers.formatEther(balance));
+    const balance = (await loadBalance(accountDetails!.address)).slice(0, -4).trim();
+    setBalance(balance);
   };
 
   const getAmountInDollars = (value: number) => {
