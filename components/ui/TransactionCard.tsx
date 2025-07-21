@@ -1,12 +1,12 @@
+import { useAccount } from '@/contexts/AccountContext';
+import type { Tx } from '@/types/types';
 import { friends } from '@/utils/mockData';
 import { formatCurrency } from '@/utils/prices';
-import type { Tx } from '@/types/types';
 import Avatar from '@mealection/react-native-boring-avatars';
 import { ethers } from 'ethers';
 import { Heart, MessageSquare } from 'lucide-react-native';
 import React from 'react';
 import { Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { useAccount } from '@/contexts/AccountContext';
 
 interface TransactionCardProps {
   transaction: Tx;

@@ -1,8 +1,8 @@
-import React from 'react';
-import { Text, Pressable, StyleSheet } from 'react-native';
 import * as Clipboard from 'expo-clipboard';
-import Toast from 'react-native-toast-message';
 import { Copy } from 'lucide-react-native';
+import React from 'react';
+import { Pressable, StyleSheet, Text } from 'react-native';
+import Toast from 'react-native-toast-message';
 
 interface Props {
   value: string;
