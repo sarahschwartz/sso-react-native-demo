@@ -9,6 +9,9 @@ interface MainViewProps {
     rpId: RpId;
 }
 
+const accountName = 'Zeek';
+const accountUserID = 'zeekUserId';
+
 const MainView: React.FC<MainViewProps> = ({ rpId }) => {
     const { accountDetails, setAccountDetails } = useAccount();
 
@@ -21,8 +24,8 @@ const MainView: React.FC<MainViewProps> = ({ rpId }) => {
             {!accountDetails && (
                 <LoggedOutView
                     accountInfo={{
-                        name: "JDoe",
-                        userID: "jdoe",
+                        name: accountName,
+                        userID: accountUserID,
                         rpId
                     }}
                     onAccountCreated={(account) => {
