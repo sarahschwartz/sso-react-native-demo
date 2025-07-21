@@ -34,10 +34,9 @@ export default function WalletScreen() {
       return;
     }
     setPrices(prices);
-
     // set balance
-    const balance = await loadBalance(accountDetails!.address);
-    setBalance(ethers.formatEther(balance));
+    const balance = (await loadBalance(accountDetails!.address)).slice(0, -4).trim();
+    setBalance(balance);
   };
 
   const getAmountInDollars = (value: number) => {
