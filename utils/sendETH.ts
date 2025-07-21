@@ -1,5 +1,5 @@
 import { loadConfig } from "@/utils/loadConfig";
-import { Transaction, type RpId } from "react-native-zksync-sso";
+import type { Transaction, RpId } from "react-native-zksync-sso";
 import { AccountClient } from "./authenticate/accountClient";
 
 interface FromAccount {
@@ -36,7 +36,7 @@ export async function sendETHwithSSO(
     };
 
     // sends tx and waits for the receipt automatically
-    const response = await accountClient.sendTransaction(transaction as any);
+    const response = await accountClient.sendTransaction(transaction as Transaction);
     return response;
   } catch (err) {
     console.error("Error preparing transaction:", err);
